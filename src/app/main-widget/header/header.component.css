@@ -1,0 +1,61 @@
+:host {
+  width: 500px;
+  height: 140px;
+  margin: 0 auto;
+  display: block;
+}
+.is-invalid {
+  border: 1px solid red;
+}
+h2 {
+  text-align: center;
+  padding-top: 6px;
+  margin: 10px;
+  color: rgb(16, 25, 116);
+}
+.form-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: flex-start;
+}
+label {
+  width: 85px;
+  margin-left: 10px;
+  margin-right: 5px;
+  font-size: 17px;
+}
+
+input {
+  width: 100px;
+  height: 15px;
+  margin: 2px;
+  border: none;
+  text-align: center;
+}
+span {
+  width: 284px;
+  margin-left: 8px;
+  color: white;
+  font-size: 16px;
+}
+button {
+  width: 100px;
+  border: 1px solid black;
+  padding: 5px 10px;
+  font-size: 13px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+button:active {
+  background-color: #2b8fe0;
+}
+.btn {
+  margin: 10px;
+}
+.number-exist {
+  color: red;
+}

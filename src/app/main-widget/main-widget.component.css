@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  width: 500px;
+  min-height: 360px;
+  margin: 0 auto;
+  background-color: #6baed6;
+  /* background-image: -webkit-radial-gradient(21% 100%, circle farthest-side, #0d2fb8, #ffffff %); */
+  /* background-image: -webkit-radial-gradient(18% -62%, ellipse farthest-corner, #003e40, rgba(253, 247, 255, 0.3) 100%); */
+  box-shadow: 0px 0px 79px -24px rgba(0,0,0,0.75);
+}

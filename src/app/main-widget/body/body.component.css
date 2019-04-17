@@ -1,0 +1,35 @@
+table {
+  border-collapse: separate;
+  border-spacing: 0px;
+}
+ td + td {
+  border-left:1px solid white;
+ }
+
+.flex-container {
+  display:flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: flex-start;
+}
+th {
+  width: 158px;
+  max-width: 158px;
+  height: 20px;
+  text-align: center;
+}
+
+td {
+  width: 158px;
+  max-width: 158px;
+  height: 20px;
+  text-align: center;
+  overflow: hidden;
+  padding: 0px;
+}
+button {
+  border: none;
+  cursor: pointer;
+}

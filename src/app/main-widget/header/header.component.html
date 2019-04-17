@@ -1,0 +1,45 @@
+<h2 class="header">Car Number Register</h2>
+
+<form (ngSubmit)="saveCarNumeber()" [formGroup]="carNumberForm">
+  <div class="form-row">
+    <label for="">Car Number</label>
+    <input
+      placeholder="Number"
+      type="text"
+      formControlName="number"
+      [ngClass]="{
+        'is-invalid':
+          (carNumberForm.get('number').touched ||
+            carNumberForm.get('number').dirty) &&
+          !carNumberForm.get('number').valid
+      }"
+    />
+    <span *ngIf="carNumberForm.get('number').errors && !carNum">
+      Enter Car Number Ex. "BFG750"
+    </span>
+    <span class="number-exist" *ngIf="existence">
+      number {{ carNum | carNumberPlate }} already exist
+    </span>
+  </div>
+  <div class="form-row">
+    <label for="">Car Owner</label>
+    <input
+      placeholder="Owner"
+      type="text"
+      formControlName="owner"
+      [ngClass]="{
+        'is-invalid':
+          (carNumberForm.get('owner').touched ||
+            carNumberForm.get('owner').dirty) &&
+          !carNumberForm.get('owner').valid
+      }"
+    />
+    <span *ngIf="carNumberForm.get('owner').errors">
+      Enter Car Owner Ex. "John"
+    </span>
+  </div>
+  <div class="btn">
+    <button type="submit" [disabled]="!carNumberForm.valid">Add to List</button>
+  </div>
+</form>
+<hr />
