@@ -9,7 +9,7 @@ import { ICarNumber } from './main-widget/body/car-number';
   providedIn: 'root'
 })
 export class WidgetService {
-  itemUrl = 'http://localhost:8080/carnumbers';
+  url = 'http://localhost:8080/carnumbers';
   newcarNumbers: ICarNumber[];
   carNumbers = new BehaviorSubject<ICarNumber[]>([]);
   carNumbersChanged$ = this.carNumbers.asObservable();
@@ -17,14 +17,14 @@ export class WidgetService {
   }
 
   getCarNumbers(): Observable <ICarNumber[]> {
-    return this.http.get<ICarNumber[]>(this.itemUrl).pipe
-    (tap(data => console.log('getItem: ' + JSON.stringify(data))),
+    return this.http.get<ICarNumber[]>(this.url).pipe
+    (tap(data => console.log('getcarNumber: ' + JSON.stringify(data))),
       catchError(this.handleError)
     );
   }
 
   createCarNumber(carNumber: ICarNumber) {
-    return this.http.post(this.itemUrl, carNumber)
+    return this.http.post(this.url, carNumber)
       .pipe(
         tap(data => console.log(JSON.stringify(carNumber))),
         catchError(this.handleError)
@@ -33,7 +33,7 @@ export class WidgetService {
 
   deleteCarNumber(id: string): Observable<{}> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const url = `${this.itemUrl}/${id}`;
+    const url = `${this.url}/${id}`;
     return this.http.delete<ICarNumber>(url, { headers })
       .pipe(
         catchError(this.handleError)
