@@ -17,7 +17,6 @@ export class WidgetService {
   constructor(private http: HttpClient) {
   }
 
-
   getCarNumbers(): Observable <ICarNumber[]> {
     return this.http.get<ICarNumber[]>(this.itemtUrl).pipe
     (tap(data => console.log('getItem: ' + JSON.stringify(data))),
@@ -25,16 +24,13 @@ export class WidgetService {
     );
   }
 
-
   createCarNumber(carNumber: ICarNumber) {
-    this.addCarNumber(carNumber);
     return this.http.post(this.itemtUrl, carNumber)
       .pipe(
         tap(data => console.log(JSON.stringify(carNumber))),
         catchError(this.handleError)
     );
   }
-
 
     deleteCarNumber(id: string): Observable<{}> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -43,7 +39,17 @@ export class WidgetService {
       .pipe(
         catchError(this.handleError)
       );
+    }
+
+  addCarNumber(carNumber: any) {
+    this.carNumbers.push(carNumber);
+    this.carNumbersSubject$.next(this.carNumbers);
   }
+
+   removeCarNumber(num: string) {
+    this.carNumbers = this.carNumbers.filter(value => value.number !== num);
+    this.carNumbersSubject$.next(this.carNumbers);
+   }
 
   private handleError(err) {
   let errorMessage: string;
@@ -54,14 +60,5 @@ export class WidgetService {
   }
   console.error(err);
   return throwError(errorMessage);
-  }
-
-  private addCarNumber(carNumber: any) {
-    this.carNumbers.push(carNumber);
-    this.carNumbersSubject$.next(this.carNumbers);
-  }
-   removeCarNumber(num: string) {
-    this.carNumbers = this.carNumbers.filter(value => value.number !== num);
-    this.carNumbersSubject$.next(this.carNumbers);
   }
 }

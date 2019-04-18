@@ -7,22 +7,24 @@ import { ICarNumber } from './main-widget/body/car-number';
 describe('WidgetService', () => {
   let widgetService: WidgetService;
   let httpTestingController: HttpTestingController;
-  const carNumbers: ICarNumber[] = [
-    { number: 'car111', owner: 'John1' },
-    { number: 'car112', owner: 'John2' },
-    { number: 'car112', owner: 'John3' }
-  ];
-
+  let carNumbers: ICarNumber[];
+  let carNumber: ICarNumber;
   beforeEach(() => {
+    carNumbers = [
+      { number: 'car111', owner: 'John1' },
+      { number: 'car112', owner: 'John2' },
+      { number: 'car112', owner: 'John3' }
+    ];
+    carNumber = { number: 'car111', owner: 'John1' };
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      // providers: [WidgetService]
     });
     widgetService = TestBed.get(WidgetService);
     httpTestingController = TestBed.get(HttpTestingController);
+    widgetService.carNumbers = carNumbers;
   });
 
-  it('GET all carnumbers', () => {
+  it('should GET all carnumbers', () => {
     widgetService.getCarNumbers()
       .subscribe((data: ICarNumber[]) => {
         expect(data.length).toBe(3);
@@ -32,8 +34,21 @@ describe('WidgetService', () => {
     carNumbersRequest.flush(carNumbers);
     httpTestingController.verify();
   });
-  // it('should be created', () => {
-  //   const service: WidgetService = TestBed.get(WidgetService);
-  //   expect(service).toBeTruthy();
-  // });
+
+  it('should Post  carnumber', () => {
+    widgetService.createCarNumber(carNumber).subscribe();
+    const carNumbersRequest: TestRequest = httpTestingController.expectOne('http://localhost:8080/carnumbers');
+    expect(carNumbersRequest.request.method).toEqual('POST');
+    httpTestingController.verify();
+  });
+
+  it('should add car number', () => {
+    widgetService.addCarNumber(carNumber);
+    expect(widgetService.carNumbers.length).toEqual(4);
+  });
+
+  it('should remove car number', () => {
+    widgetService.removeCarNumber(carNumber.number);
+    expect(widgetService.carNumbers).toEqual(widgetService.carNumbers.filter(value => value.number !== carNumber.number));
+  });
 });

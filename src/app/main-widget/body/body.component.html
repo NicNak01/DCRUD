@@ -9,7 +9,7 @@
   </thead>
 
   <tbody class="flex-container">
-    <tr *ngFor="let carNum of carNumbers">
+    <tr class='text' *ngFor="let carNum of carNumbers">
       <td>{{ carNum.number | carNumberPlate }}</td>
       <td>{{ carNum.owner }}</td>
       <td>

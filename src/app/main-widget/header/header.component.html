@@ -34,7 +34,7 @@
           !carNumberForm.get('owner').valid
       }"
     />
-    <span *ngIf="carNumberForm.get('owner').errors">
+    <span *ngIf="carNumberForm.get('owner').errors && !carNum">
       Enter Car Owner Ex. "John"
     </span>
   </div>

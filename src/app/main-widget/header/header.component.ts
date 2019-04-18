@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 
 import { ICarNumber } from '../body/car-number';
 import { WidgetService } from '../../widget.service';
@@ -24,23 +24,26 @@ export class HeaderComponent implements OnInit {
   carNumberForm: FormGroup;
   carNum: string;
   sub: Subscription;
+  p: any;
 
   constructor(private fb: FormBuilder,
               private widgetService: WidgetService) { }
   saveCarNumeber() {
     this.existence = false;
     // const p = { ...this.carNumber, ...this.carNumberForm.value };
-    const p = Object.assign({}, this.carNumberForm.value );
+    this.p = Object.assign({}, this.carNumberForm.value );
     this.carNumberForm.reset();
     this.carNumbers.forEach(element => {
-      if (element.number === p.number) {
-        this.carNum = p.number;
+      if (element.number === this.p.number) {
+        this.carNum = this.p.number;
         this.existence = true;
       } else {
       }
     });
     if (!this.existence) {
-      this.widgetService.createCarNumber(p).subscribe();
+      this.widgetService.addCarNumber(this.p);
+      this.widgetService.createCarNumber(this.p).subscribe();
+      this.carNum = null;
     }
   }
   ngOnInit() {

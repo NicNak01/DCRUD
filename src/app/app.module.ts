@@ -9,6 +9,7 @@ import { BodyComponent } from './main-widget/body/body.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CarNumberPlate } from './main-widget/shared/car-number-plate.pipe';
 
+
 @NgModule({
   declarations: [
     AppComponent,
