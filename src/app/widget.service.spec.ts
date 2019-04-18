@@ -21,7 +21,7 @@ describe('WidgetService', () => {
     });
     widgetService = TestBed.get(WidgetService);
     httpTestingController = TestBed.get(HttpTestingController);
-    widgetService.carNumbers = carNumbers;
+    widgetService.carNumbers.next(carNumbers);
   });
 
   it('should GET all carnumbers', () => {
@@ -44,11 +44,11 @@ describe('WidgetService', () => {
 
   it('should add car number', () => {
     widgetService.addCarNumber(carNumber);
-    expect(widgetService.carNumbers.length).toEqual(4);
+    expect(widgetService.carNumbers.value.length).toEqual(4);
   });
 
   it('should remove car number', () => {
     widgetService.removeCarNumber(carNumber.number);
-    expect(widgetService.carNumbers).toEqual(widgetService.carNumbers.filter(value => value.number !== carNumber.number));
+    expect(widgetService.carNumbers.value).toEqual(widgetService.carNumbers.value.filter(value => value.number !== carNumber.number));
   });
 });

@@ -2,8 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { MainWidgetComponent } from './main-widget.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { WidgetService } from '../widget.service';
 
 describe('MainWidgetComponent', () => {
+  let widgetService: WidgetService;
   @Component({
     selector: 'app-header',
     template: '<div></div>'
@@ -24,6 +27,9 @@ describe('MainWidgetComponent', () => {
         MainWidgetComponent,
         FakeHeaderComponent,
         FakeBodyComponent
+      ],
+      imports: [
+        HttpClientTestingModule
       ]
       // schemas: [NO_ERRORS_SCHEMA]
     })
@@ -33,6 +39,7 @@ describe('MainWidgetComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MainWidgetComponent);
     component = fixture.componentInstance;
+    widgetService = TestBed.get(WidgetService);
     fixture.detectChanges();
   });
 

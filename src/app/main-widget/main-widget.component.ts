@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { WidgetService } from '../widget.service';
+import { ICarNumber } from './body/car-number';
 
 @Component({
   selector: 'app-main-widget',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainWidgetComponent implements OnInit {
 
-  constructor() { }
+  constructor(private widgetService: WidgetService) { }
 
   ngOnInit() {
+    this.widgetService.getCarNumbers().subscribe(
+      (CarNumbers: ICarNumber[]) => {
+        this.widgetService.setCarNumber(CarNumbers);
+      }
+    );
   }
 
 }

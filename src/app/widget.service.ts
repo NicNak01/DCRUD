@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { catchError, tap, map } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 import { ICarNumber } from './main-widget/body/car-number';
 
@@ -9,46 +9,52 @@ import { ICarNumber } from './main-widget/body/car-number';
   providedIn: 'root'
 })
 export class WidgetService {
-  itemtUrl = 'http://localhost:8080/carnumbers';
-  carNumbers: ICarNumber[];
-  carNumber: ICarNumber;
-  private carNumbersSubject$ = new BehaviorSubject<ICarNumber[]>(this.carNumbers);
-  carNumbersChanged$ = this.carNumbersSubject$.asObservable();
+  itemUrl = 'http://localhost:8080/carnumbers';
+  newcarNumbers: ICarNumber[];
+  carNumbers = new BehaviorSubject<ICarNumber[]>([]);
+  carNumbersChanged$ = this.carNumbers.asObservable();
   constructor(private http: HttpClient) {
   }
 
   getCarNumbers(): Observable <ICarNumber[]> {
-    return this.http.get<ICarNumber[]>(this.itemtUrl).pipe
+    return this.http.get<ICarNumber[]>(this.itemUrl).pipe
     (tap(data => console.log('getItem: ' + JSON.stringify(data))),
       catchError(this.handleError)
     );
   }
 
   createCarNumber(carNumber: ICarNumber) {
-    return this.http.post(this.itemtUrl, carNumber)
+    return this.http.post(this.itemUrl, carNumber)
       .pipe(
         tap(data => console.log(JSON.stringify(carNumber))),
         catchError(this.handleError)
     );
   }
 
-    deleteCarNumber(id: string): Observable<{}> {
+  deleteCarNumber(id: string): Observable<{}> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const url = `${this.itemtUrl}/${id}`;
+    const url = `${this.itemUrl}/${id}`;
     return this.http.delete<ICarNumber>(url, { headers })
       .pipe(
         catchError(this.handleError)
       );
     }
 
-  addCarNumber(carNumber: any) {
-    this.carNumbers.push(carNumber);
-    this.carNumbersSubject$.next(this.carNumbers);
+  addCarNumber(carNumber: ICarNumber) {
+    const currentState = this.carNumbers.value.map(o => {
+      return {...o};
+    });
+    this.newcarNumbers = [...this.carNumbers.value, carNumber];
+    this.carNumbers.next(this.newcarNumbers);
   }
 
-   removeCarNumber(num: string) {
-    this.carNumbers = this.carNumbers.filter(value => value.number !== num);
-    this.carNumbersSubject$.next(this.carNumbers);
+  removeCarNumber(num: string) {
+    this.newcarNumbers = this.carNumbers.value.filter(value => value.number !== num);
+    this.carNumbers.next(this.newcarNumbers);
+  }
+
+   setCarNumber(carnumbers) {
+    this.carNumbers.next(carnumbers);
    }
 
   private handleError(err) {
@@ -61,4 +67,5 @@ export class WidgetService {
   console.error(err);
   return throwError(errorMessage);
   }
+
 }
